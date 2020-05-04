@@ -1,40 +1,41 @@
 package webdemo.seleniumDemo;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class ElementPresentTest {
+public class ElementPresentPhantomJSTest {
 
     private static WebDriver driver;
 
     @BeforeAll
     public static void setUpDriver(){
-        WebDriverManager.firefoxdriver().setup();
-        FirefoxOptions options = new FirefoxOptions();
-        options.setHeadless(true);
-        driver = new FirefoxDriver(options);
+        WebDriverManager.phantomjs().setup();
+        driver = new PhantomJSDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         driver.get("https://duckduckgo.com/");
     }
 
     @AfterAll
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         driver.quit();
     }
 
@@ -50,10 +51,8 @@ public class ElementPresentTest {
 
     @Test
     public void testSubmit() {
-        WebDriverWait wait = new WebDriverWait(driver,5);
         driver.findElement(By.id("search_form_input_homepage")).sendKeys("Koty");
         driver.findElement(By.id("search_form_input_homepage")).sendKeys(Keys.ENTER);
-        wait.until(ExpectedConditions.titleContains("Koty at DuckDuckGo"));
         assertTrue(isElementPresent(By.id("wedonttrack")));
     }
 

@@ -34,12 +34,12 @@ public class DDGTest {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         driver.get("https://duckduckgo.com/");
     }
 
     @AfterAll
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         driver.quit();
     }
 
